@@ -3,94 +3,184 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Scène Romantique Simple</title>
-<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet" />
+<title>Surprise pour Aziz 5ouk</title>
 <style>
-  body {
-    margin: 0; padding: 20px;
-    font-family: 'Great Vibes', cursive;
-    background: #fff0f5; /* fond rose clair */
-    color: #d63384; /* couleur texte fuchsia */
+  @import url('https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap');
+
+  body, html {
+    margin: 0; padding: 0; height: 100%;
+    background: white;
+    overflow: hidden;
+    font-family: 'Dancing Script', cursive;
+    user-select: none;
   }
-  #input-overlay {
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: #ffe4e1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+
+  #heart-container {
+    position: relative;
+    width: 400px;
+    height: 400px;
+    margin: 60px auto;
     z-index: 10;
   }
-  #codeInput {
-    font-size: 1.2rem;
-    padding: 10px;
-    width: 120px;
-    border: 2px solid #d6336c;
-    border-radius: 5px;
+
+  #heart-container img {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+
+  #message {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 320px;
+    color: #ff66cc;
+    font-size: 20px;
+    font-style: italic;
     text-align: center;
-    margin-bottom: 10px;
-  }
-  #codeButton {
-    background: #d6336c;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-size: 1rem;
-  }
-  #codeButton:hover {
-    background: #c92360;
-  }
-  #romantic-scene {
-    display: none;
-    max-width: 600px;
-    margin: 0 auto;
-  }
-  #heart-text {
-    font-size: 1.8rem;
     line-height: 1.4;
-    white-space: pre-line;
+    text-shadow: 1px 1px 4px #ff99dd;
   }
-  /* Hello Kitty déplacées en bas à droite et gauche */
+
+  /* Hello Kitty GIFs flottants */
   .kitty {
     position: fixed;
-    width: 80px;
+    width: 60px;
+    height: 60px;
+    opacity: 0.7;
+    pointer-events: none;
+    animation: floatUp 10s linear infinite;
+  }
+
+  @keyframes floatUp {
+    0% { transform: translateY(100vh) translateX(0) rotate(0deg); opacity: 0.7; }
+    100% { transform: translateY(-100px) translateX(30px) rotate(360deg); opacity: 0; }
+  }
+
+  /* Cœurs animés flottants */
+  .floating-heart {
+    position: fixed;
+    bottom: -50px;
+    width: 30px;
+    height: 30px;
+    background: radial-gradient(circle at 30% 30%, #ff66cc 0%, #cc0066 70%);
+    clip-path: polygon(
+      50% 0%, 61% 15%, 75% 15%, 85% 25%,
+      85% 40%, 70% 55%, 50% 75%, 30% 55%,
+      15% 40%, 15% 25%, 25% 15%, 39% 15%
+    );
+    animation: floatHeartUp linear forwards;
     opacity: 0.8;
-    animation: floatKitty 5s ease-in-out infinite;
-    pointer-events: none; /* pour ne pas gêner la sélection du texte */
   }
-  .kitty1 {
+
+  @keyframes floatHeartUp {
+    0% {
+      transform: translateY(0) scale(1);
+      opacity: 0.8;
+    }
+    100% {
+      transform: translateY(-110vh) scale(1.5);
+      opacity: 0;
+    }
+  }
+
+  /* Code input style */
+  #code-input {
+    position: fixed;
     bottom: 20px;
-    left: 10px;
-    animation-duration: 6s;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 15px;
+    font-size: 18px;
+    border-radius: 25px;
+    border: 2px solid #ff66cc;
+    outline: none;
+    width: 200px;
+    text-align: center;
+    font-family: 'Dancing Script', cursive;
+    color: #cc0066;
+    transition: border-color 0.3s ease;
   }
-  .kitty2 {
-    bottom: 20px;
-    right: 10px;
-    animation-duration: 5s;
+  #code-input:focus {
+    border-color: #ff99dd;
   }
-  @keyframes floatKitty {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-15px); }
+
+  /* Message d'instruction */
+  #instruction {
+    text-align: center;
+    margin-top: 15px;
+    font-style: italic;
+    color: #cc0066;
+    font-family: 'Dancing Script', cursive;
   }
 </style>
 </head>
 <body>
 
-<!-- Overlay demande code secret -->
-<div id="input-overlay">
-  <h2>Entrez le code secret</h2>
-  <input id="codeInput" type="text" maxlength="3" placeholder="143" />
-  <button id="codeButton">Entrer</button>
+<div id="heart-container" style="display:none;">
+  <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZAAAAGQCAIAAADQtpj3AAACcUlEQVR4nO3cUQkEMRAA0dm1fV+g6BZ1h+77ygn+Zpl1F1Uqo9Sh6JEBEACeTZdWWghhRBhAAiEYQAgjEa0VQCr5F2+pB7I9BuqXgeSKxUiW7owAtJp9Vz10KwOu+0dBvNtSlAIa5fkcgTcXCVEMQf+uC5oOBIR48Fq9fFAAPuZvk3D7mPk+eAVdBzg1PbHkvq82h6AN4dAV3BzITcXCAQ0fT6cDfTQBHBxPBtx0i1zACMjCR7rBXcAjgdPTikgYcXj+QUAD4cXi6OYVgC9sxAHDw6PmeGYEBAXicTo4/ewJefx7rOegxYNG3wBkvgAzF9h4ZxoHgYoSABx8YGBCDLkL45Ki9cRgYMA7hcQCh4nNoHCQYvP4kYTncCkBN2rN4Bz04fAARQA4eKcfhFUSjgKhp+OIcmQGEuDwcok0wwuAx4mPgAzjy8r5GBhAAAf28Hg4vH6sKBKPDxkAdPBYwHR2OWS0PAyeACw8HgAA7Pw5uIUKDwYEDJ7xyHEwcPCA0OrnAwq7Dzp6uEvg4HA4w3k8bMHjwjEBAYDvh0PXgFvIKEx4EDHwmEHAg6vNqno7oQwYJyoIjCBgBjygfQ0GkAO5OBlMSDh/QP2g4PjF/YnpeSHYEBwYD43mcHg7jxGcA/0XBAaAAOj06HA7BxQGPI5NDxUDq/QA+AEP5PV8yoAR1rFQGu6dyvqXif+ccYmfj9z6XAzjP9+yoef54/PgG7LidDh56N8MAAAAASUVORK5CYII=" alt="Grand cœur rose" />
+  <div id="message">
+    <p><em>al 5ou rak dima fel 9alb w na3ref 5ouye 9adha w yjibha<br/>
+    ferhan bik brcha eli 7atit fi 9albek ou welit ta9ra ale ruhek<br/>
+    rby ynj7k w yfr7 omk bik<br/>
+    <br/>
+    je veux qu'elle soit en italique avec des couleur qui donne l'impression de souhaiter la réussite</em></p>
+  </div>
 </div>
 
-<!-- Texte romantique -->
-<div id="romantic-scene">
-  <div id="heart-text">
-    habib 9albi w ruhy w lmra eli netmaneha,<br>
-    njmch no93od met8achech alik brcha,<br>
-    8odwa awel nhar fi les devoirs principeaux,<br>
-    nheb n9olek eli nty akther ensen eni habitu f hyeti w 3cha9tou<br>
-    netmenelk ken el far7a w nchuf e dha7ka fi fmk w fi 3inik.<br>
+<input type="text" id="code-input" placeholder="Tape le code secret" autocomplete="off" maxlength="10" />
+<div id="instruction">Tape le code secret pour la surprise 🎉</div>
+
+<script>
+  // GIF Hello Kitty URLs (tu peux remplacer par tes propres GIFs si tu veux)
+  const kittyGifs = [
+    'https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExYTljZDQ0NmVkZmFkNjQ3NjA1ZTcyMjBjYzYzODNkOGQzMTA0NDk0YiZjdD1n/q1MeAPDDMb43K/giphy.gif',
+    'https://media.giphy.com/media/3o6ZsZDGY94XUR1I2I/giphy.gif',
+    'https://media.giphy.com/media/Wb05Ijs6HwSfu/giphy.gif',
+  ];
+
+  // Créer des GIF Hello Kitty flottants aléatoires
+  function createKitty() {
+    const kitty = document.createElement('img');
+    kitty.src = kittyGifs[Math.floor(Math.random() * kittyGifs.length)];
+    kitty.className = 'kitty';
+    kitty.style.left = Math.random() * window.innerWidth + 'px';
+    kitty.style.animationDuration = (8 + Math.random() * 5) + 's';
+    kitty.style.animationDelay = Math.random() * 10 + 's';
+    document.body.appendChild(kitty);
+    setTimeout(() => kitty.remove(), 15000);
+  }
+
+  // Lancer la création des kitties en boucle
+  setInterval(createKitty, 1000);
+
+  // Cœurs flottants
+  function createHeart() {
+    const heart = document.createElement('div');
+    heart.className = 'floating-heart';
+    heart.style.left = Math.random() * window.innerWidth + 'px';
+    heart.style.animationDuration = (5 + Math.random() * 5) + 's';
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 10000);
+  }
+
+  // Lancer la création des cœurs en boucle
+  setInterval(createHeart, 700);
+
+  // Gestion du code secret
+  const secretCode = "143";
+  const input = document.getElementById('code-input');
+  const heartContainer = document.getElementById('heart-container');
+  const instruction = document.getElementById('instruction');
+
+  input.addEventListener('input', () => {
+    if (input.value === secretCode) {
+      heartContainer.style.display = 'block';
+      instruction.textContent = "✨ Surprise activée ! ✨";
+      input.style.display = 'none';
+    }
+  });
+</script>
+
+</body>
+</html>
