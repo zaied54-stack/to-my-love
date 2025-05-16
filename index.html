@@ -1,134 +1,96 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Scène romantique améliorée</title>
-<!-- Police cursive douce -->
+<title>Scène Romantique Simple</title>
 <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet" />
 <style>
   body {
     margin: 0; padding: 20px;
     font-family: 'Great Vibes', cursive;
-    background: #fffaf0; /* blanc très doux */
-    color: #d63384; /* fuchsia doux */
-    overflow-x: hidden;
-    min-height: 100vh;
+    background: #fff0f5; /* fond rose clair */
+    color: #d63384; /* couleur texte fuchsia */
   }
-
-  /* Overlay de saisie du code */
   #input-overlay {
-    position: fixed; top: 0; left: 0;
-    width: 100vw; height: 100vh;
-    background: #ffe4e1;  /* mistyrose */
-    display: flex; flex-direction: column;
-    justify-content: center; align-items: center;
-    z-index: 999;
-    color: #d6336c; font-size: 1.5rem;
-  }
-  #input-overlay h1 {
-    margin-bottom: 20px;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: #ffe4e1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 10;
   }
   #codeInput {
-    padding: 10px;
     font-size: 1.2rem;
-    width: 100px;
-    text-align: center;
-    margin-bottom: 10px;
+    padding: 10px;
+    width: 120px;
     border: 2px solid #d6336c;
     border-radius: 5px;
+    text-align: center;
+    margin-bottom: 10px;
   }
   #codeButton {
-    padding: 10px 20px;
-    font-size: 1.2rem;
     background: #d6336c;
     color: white;
     border: none;
     border-radius: 5px;
+    padding: 10px 20px;
     cursor: pointer;
+    font-size: 1rem;
   }
   #codeButton:hover {
     background: #c92360;
   }
-
-  /* Scène romantique */
   #romantic-scene {
     display: none;
     max-width: 600px;
     margin: 0 auto;
-    position: relative;
-    padding-bottom: 50px;
   }
-
-  /* Texte principal */
   #heart-text {
     font-size: 1.8rem;
-    line-height: 1.6;
-    white-space: pre-line; /* garder les retours à la ligne */
-    padding: 20px;
-    background: #fff0f5; /* très clair rose pale */
-    border-radius: 15px;
-    box-shadow: 0 0 15px rgba(214, 51, 132, 0.3);
+    line-height: 1.4;
+    white-space: pre-line;
   }
-  #heart-text span {
-    color: #ff69b4;
-    font-weight: bold;
-    font-size: 2rem;
-  }
-
-  /* Grand cœur */
-  #heart-image {
-    display: block;
-    max-width: 250px;
-    margin: 30px auto;
-  }
-
-  /* Hello Kitty */
+  /* Hello Kitty déplacées en bas à droite et gauche */
   .kitty {
     position: fixed;
     width: 80px;
+    opacity: 0.8;
     animation: floatKitty 5s ease-in-out infinite;
-    user-select: none;
-    pointer-events: none;
+    pointer-events: none; /* pour ne pas gêner la sélection du texte */
   }
-  .kitty-left {
-    top: 20%;
-    left: 5px;
-    animation-duration: 5s;
-  }
-  .kitty-right {
-    top: 60%;
-    right: 5px;
+  .kitty1 {
+    bottom: 20px;
+    left: 10px;
     animation-duration: 6s;
   }
+  .kitty2 {
+    bottom: 20px;
+    right: 10px;
+    animation-duration: 5s;
+  }
   @keyframes floatKitty {
-    0% { transform: translateY(0) rotate(0deg); }
-    50% { transform: translateY(-15px) rotate(10deg); }
-    100% { transform: translateY(0) rotate(0deg); }
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
   }
 </style>
 </head>
 <body>
 
-<!-- Overlay de code -->
+<!-- Overlay demande code secret -->
 <div id="input-overlay">
-  <h1>143</h1>
+  <h2>Entrez le code secret</h2>
   <input id="codeInput" type="text" maxlength="3" placeholder="143" />
   <button id="codeButton">Entrer</button>
 </div>
 
-<!-- Scène romantique -->
+<!-- Texte romantique -->
 <div id="romantic-scene">
-  <img id="heart-image" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZAAAAEwCAYAAAAE1L+TAAAgAElEQVR4Xu1dCZxw1Xk+TTdnz4cma29caRSkQBKcQFjAHoS+gphQwBj3BoZKagNkzIYYHOeWUgz+GjLiLH3Y6iHpKB7eSbcd3775n7t3ZHNyMe+9jnssbNm7di39Ru9bwoKGtr7fHOnDmzGkUgkHA6fKfV0lfq8HEJ6Qpf0rH1JrWwgQAhCEQBFEQBRFECQfR2yImludAl25IAQBF0Nj5+KBCQA4iEIQgIQAhCEPBFZv4/1Ma4s8C/2Ow3Xays30Eoz61+JYIJe4oDW1itvLuY4GljaWrbixur7bHYw2fZrzsczj9YDF1rE4gCYHjCyfqkXV2ZWC/oLUBi3hFnn08L+rGYEx8KzOSimBxN1JpiZYq+8L5Wd4m+yo0P7WYiJrAFBgM9+exXuPCHPXBwO1cJdLs+29yfHqZmaaxsvD0ORz8KA/eFoM/BpJI4OW7p8dr64oHGQp4Z7+ci/xrsi/Ls4XXtBP7iLCLd7C3bkTDIDp9ZnvRZMI5IR0m+YmiUKcEyZV37LpTn+6b16cYYVSz2R1depHIw4Qn66wvJoOHiXwvbNN83Xg/3I+wa8to9OYx8jjPDjH5n8t1JHQKjosvc4OCz1PKDknNYxb6DKvaS4+qiW9E6ue2/WQ2j010Df/W5vQ2fqaHbb37nSqYnH+VO6Zouqkr+tIt5B98z04QDHd4zsCs5pm89kjAm2DYFpCfsI9sUK9lHKZuZ6fHobPvi48K+ObiZ4pL1QLZUZ7XeH7eGsel/+82V8PD+ZYNLj1TgYx35HtmcCVceDNuuTUp0vjBklYOWkvbIyPPuOuj/POX/3B4XHFrfRYvUT8b0eGc37JcXF4UXv5j93/+Psv1vpFZn///kdH/PE3v+m9f1hx159WWT8qoseP7EHJhQ8NnfVwmsvxvSkfA6rLjuf+3+b6IMrr+IXtL+ebYLyV6uSs0x7fK+0PSM1DHaXfXPWNuhijMEb5NyrLrVy0hb0jqaVaKDGqffX8WiR75rIHwxN+slmHeWSxtkp/a9TPJ2H919+5HWZJkMuSMlH8BQ7P4sp6oH7sI+OHcnjvyBs93cUbF3UnmP1DqLy25HsjW/0M+7X3vIj5iAY3Uj3kEsyLDJP1p2eP0/93kUABCEIQAhCEIAhAIMtboF6gdcmBCGjzD5KVseQG5d+qGauPoBekLwEN5BoetgBAJ5uWyFHhi5z2aj4U+YFM7fRQEIPYxAZB9N4t/S0tsnAHIfmOWPoBi1obra2rizidQeNC8kkyjFi8AvfSVIcgtrnsEcBSZj8PP0BQKhVMJBhyUcBRMiCFEBFEQBRFEEQBFEQBBFHpDqIhfRCRMoAAA==" alt="Grand cœur rose" />
-  
   <div id="heart-text">
     habib 9albi w ruhy w lmra eli netmaneha,<br>
     njmch no93od met8achech alik brcha,<br>
     8odwa awel nhar fi les devoirs principeaux,<br>
     nheb n9olek eli nty akther ensen eni habitu f hyeti w 3cha9tou<br>
     netmenelk ken el far7a w nchuf e dha7ka fi fmk w fi 3inik.<br>
-    inchallah les devoirs lkoll yet3adew kima thebhom nti w tfr7ni<br>
-    w tnj7 b une tres bonne note liya 9bal ma tkun lik ☺️<br>
-    mak t3fni eneni chwayta.<br>
-    Nhebek brcha y ruh ruh w rby yfr7 ta houda w bou
